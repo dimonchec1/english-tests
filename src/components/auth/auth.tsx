@@ -14,7 +14,8 @@ import { api } from '@/utils/api'
 
 import clsx from 'clsx'
 
-// import CloseButton from '../../assets/Close.svg'
+import CloseButton from '../../assets/Close.svg'
+import Image from 'next/image'
 
 const uiConfig = {
     signInSuccessUrl: '/',
@@ -42,9 +43,9 @@ const StyledTab = (
         <TabUnstyled
             value={value}
             className={clsx(
-                'w-28 h-6 m-1 rounded font-sans font-medium flex items-center justify-center text-sm text-white',
+                'w-28 h-6 m-1 rounded font-sans font-medium flex items-center justify-center text-sm',
                 {'bg-white text-sky-600': isActive},
-                {'hover:bg-sky-700': !isActive}
+                {'text-white hover:bg-sky-700': !isActive}
             )}
         >
             {label}
@@ -209,7 +210,12 @@ function AuthWithCredentials({onClose}:{onClose: () => void}) {
                         onClick={e => onClose()}
                         className='flex justify-center items-center h-6 w-6 mx-2 text-neutral-600 hover:text-neutral-900'
                     >
-                        {/* <CloseButton className={'w-full h-full'} /> */}
+                        <Image
+                            src={CloseButton}
+                            alt='Закрыть окно'
+                            width={24}
+                            height={24}
+                        />
                     </button>
                    
                 </div>

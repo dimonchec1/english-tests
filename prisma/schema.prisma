@@ -14,12 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -27,12 +21,12 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -50,10 +44,12 @@ model Session {
 model User {
     id            String    @id @default(cuid())
     username      String
-    email         String   @unique
+    email         String    @unique
     emailVerified DateTime?
     password      String
     image         String?
+    tests         Test[]
+    testTemplates TestTemplate[]
     accounts      Account[]
     sessions      Session[]
 }
@@ -64,4 +60,52 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Post {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    content  String @db.VarChar(255)
+    authorId String
+
+    @@index([authorId])
+}
+
+model Test {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name         String   @db.VarChar(64)
+    description  String   @db.VarChar(4000)
+    startDate    DateTime
+    endDate      DateTime
+    durationTime Int      @db.SmallInt
+    authorId     String   
+    author       User @relation(fields: [authorId], references: [id])
+
+    @@index([authorId])
+}
+
+model TestTemplate {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name         String   @db.VarChar(64)
+    description  String?   @db.VarChar(4000)
+    startDate    DateTime?
+    endDate      DateTime?
+    durationTime Int?      @db.SmallInt
+    authorId     String
+    author       User @relation(fields: [authorId], references: [id])
+}
+
+enum Role {
+    GUEST
+    USER
+    CREATOR
+    ADMIN
 }
