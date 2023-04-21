@@ -1,26 +1,29 @@
 import { ActionButton } from "@/entities/buttons/ActionButton"
-import { InputWithLabel } from "@/entities/inputs/inputWithLabel/InputWithLabel"
 import { api } from "@/utils/api"
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from "next/router";
+import { InputWithLabel } from "@/shared/ui/inputs/inputWithLabel/InputWithLabel";
 
 const CreateTest = () => {
     const router = useRouter()
     const {data: session} = useSession()
-    const {mutate} = api.test.create.useMutation()
+    const {mutate} = api.event.create.useMutation()
     const [name, setName] = useState('')
 
     const handleCreateTestClick = () => {
         mutate({
             testName: name,
             userId: session!.user.id
+        }, {
+            onSuccess: eventId => {
+                router.push(`/event/edit/${eventId}`)
+            }
         })
-        router.push('/tests/1')
     }
 
     return (
-        <>
+        <div className='py-8'>
             <h1 className='text-3xl font-bold'>Создайте новый тест</h1>
             <div className='mt-8'>
                 <InputWithLabel 
@@ -36,7 +39,7 @@ const CreateTest = () => {
             >
                 Создать тест
             </ActionButton>
-        </>
+        </div>
     )
 }
 

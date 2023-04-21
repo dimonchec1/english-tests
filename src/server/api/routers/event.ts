@@ -2,7 +2,7 @@ import { createTRPCRouter, publicProcedure} from "../trpc"
 import { prisma } from '../../db';
 import { z } from "zod";
 
-export const testRouter = createTRPCRouter({
+export const eventRouter = createTRPCRouter({
     create: publicProcedure
         .input(z.object({
             userId: z.string().cuid(),
@@ -13,32 +13,32 @@ export const testRouter = createTRPCRouter({
 
             console.log('teasdfasdfasdfasdst')
 
-            const testTemplate = await prisma.testTemplate.create({
+            const event = await prisma.event.create({
                 data: {
                     name: testName,
                     authorId: userId
                 }
             })
 
-            return testTemplate
+            return event.id
         }),
-    testTemplate: publicProcedure
+    event: publicProcedure
         .input(z.object({
-            testTemplateId: z.string().cuid()
+            eventId: z.string().cuid()
         }))
         .query(async ({input}) => {
-            const {testTemplateId} = input
+            const {eventId} = input
 
-            const testTemplate = await prisma.testTemplate.findFirst({
-                where: {id: testTemplateId}
+            const event = await prisma.event.findFirst({
+                where: {id: eventId}
             })
 
-            return testTemplate
+            return event
         }),
-    testTemplates: publicProcedure
+    events: publicProcedure
         .query(async () => {
-            const testTemplates = await prisma.testTemplate.findMany()
+            const events = await prisma.event.findMany()
 
-            return testTemplates
+            return events
         })
 })

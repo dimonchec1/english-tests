@@ -48,8 +48,7 @@ model User {
     emailVerified DateTime?
     password      String
     image         String?
-    tests         Test[]
-    testTemplates TestTemplate[]
+    events        Event[]
     accounts      Account[]
     sessions      Session[]
 }
@@ -73,34 +72,34 @@ model Post {
     @@index([authorId])
 }
 
-model Test {
+model Event {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    name         String   @db.VarChar(64)
-    description  String   @db.VarChar(4000)
-    startDate    DateTime
-    endDate      DateTime
-    durationTime Int      @db.SmallInt
-    authorId     String   
-    author       User @relation(fields: [authorId], references: [id])
-
-    @@index([authorId])
-}
-
-model TestTemplate {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    name         String   @db.VarChar(64)
+    name         String    @db.VarChar(64)
     description  String?   @db.VarChar(4000)
     startDate    DateTime?
     endDate      DateTime?
     durationTime Int?      @db.SmallInt
     authorId     String
-    author       User @relation(fields: [authorId], references: [id])
+    author       User      @relation(fields: [authorId], references: [id])
+
+    isPublished   Boolean?  @db.Boolean()
+    publishedAt   DateTime? @db.Timestamp()
+    unpublishedAt DateTime? @db.Timestamp()
+
+    @@index([authorId])
+}
+
+model Organization {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name      String  @db.VarChar(255)
+    token     String?  @db.VarChar(255)
+    routePath String? @db.VarChar(255)
 }
 
 enum Role {

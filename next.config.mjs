@@ -22,5 +22,13 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+        //TODO: DANGEROUS, REMOVE PLS
+        {
+            hostname: '65.mchs.gov.ru'
+        }
+    ]
+  }
 };
 export default config;

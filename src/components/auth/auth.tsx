@@ -19,9 +19,6 @@ import Image from 'next/image'
 
 const uiConfig = {
     signInSuccessUrl: '/',
-
-
-
 }
 
 const Button = ({text}: {text: string}) => {

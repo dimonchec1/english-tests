@@ -1,46 +1,30 @@
-import { Test, TestCard } from '@/entities/testCard/TestCard'
-import { Editable } from '@/entities/wrappers/Editable'
-import clsx from 'clsx'
+import { TestCard } from '@/entities/testCard/TestCard'
 import { useRouter } from 'next/router'
-import { DetailedHTMLProps, FC, HTMLAttributes } from 'react'
 
-interface TestListProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-    tests: Test[]
-}
-
-const TestList: FC<TestListProps> = (
-    {
-        tests,
-        className,
-        ...props
-    }
-) => {
+const TestList = () => {
+    const tests = [
+        {id: '12312', name: 'Английский язык', author: 'Gorillaz inc'}, 
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+        {id: '213123', name: 'Машинное обучение', author: 'Николай Викторович'},
+    ]
     const router = useRouter()
     return (
-        <div 
-            className={clsx(
-                'grid grid-cols-1 gap-4',
-                className
-            )}
-            {...props}
-        >
+        <div className='grid grid-cols-1 gap-4'>
             {
                 tests.map(test => (
-                    <Editable>
-                        {
-                            editable => (
-                                <TestCard
-                                    editable={editable}
-                                    onClick={() => router.push({
-                                        pathname: '/tests/[pid]',
-                                        query: { pid: test.id },
-                                      })}
-                                    {...test}
-                                />
-                            )
-                        }
-                    </Editable>
-                   
+                    <TestCard
+                        onClick={() => router.push({
+                            pathname: '/tests/[pid]',
+                            query: { pid: test.id },
+                            })}
+                        {...test}
+                    />
                 ))
             }
         </div>

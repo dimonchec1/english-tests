@@ -13,7 +13,7 @@ const InputWithLabel: FC<InputWithLabelProps> = (
     }
 ) => {
     return (
-        <label>
+        <label className='inline-block'>
             <span className='block mb-2'>{labelText}</span>
             <Input {...props} />
         </label>
