@@ -23,19 +23,17 @@ const CreateTest = () => {
     }
 
     return (
-        <div className='py-8'>
-            <h1 className='text-3xl font-bold'>Создайте новый тест</h1>
-            <div className='mt-8'>
-                <InputWithLabel 
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    labelText='Название теста:' 
-                    className='h-8' 
-                />
-            </div>
+        <div className='py-8 space-y-8'>
+            <h1 className='text-2xl font-semibold'>Создайте новый тест</h1>
+            <InputWithLabel 
+                value={name}
+                onChange={e => setName(e.target.value)}
+                labelText='Название теста:' 
+                className='h-8' 
+            />
             <ActionButton 
                 onClick={handleCreateTestClick}
-                className='w-28 mt-10'
+                className='w-28'
             >
                 Создать тест
             </ActionButton>

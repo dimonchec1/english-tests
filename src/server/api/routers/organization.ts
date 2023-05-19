@@ -3,7 +3,7 @@ import { prisma } from '../../db'
 import { z } from "zod"
 
 export const organizationRouter = createTRPCRouter({
-    organizations: publicProcedure
+    getAll: publicProcedure
         .query(async () => {
             const organizations = await prisma.organization.findMany()
 
@@ -11,18 +11,18 @@ export const organizationRouter = createTRPCRouter({
         }),
     create: publicProcedure
         .input(z.object({
-            name: z.string().cuid()
+            name: z.string()
         }))
         .mutation(async ({input}) => {
             const {name} = input
 
-            const event = await prisma.organization.create({
+            const organization = await prisma.organization.create({
                 data: {
                     routePath: '',
                     name
                 }
             })
 
-            return event.id
+            return organization.id
         }),
 })

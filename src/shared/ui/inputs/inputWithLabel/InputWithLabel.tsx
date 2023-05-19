@@ -12,11 +12,14 @@ const InputWithLabel: FC<InputWithLabelProps> = (
         ...props
     }
 ) => {
-    return (
-        <label className='inline-block'>
-            <span className='block mb-2'>{labelText}</span>
-            <Input {...props} />
-        </label>
+    return (  
+        <div>
+            <label className="text-gray-700">
+                {labelText}
+                <Input {...props} />
+            </label>
+        </div>  
+      
     )
 }
 

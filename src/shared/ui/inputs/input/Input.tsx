@@ -1,8 +1,6 @@
 import { InputProps } from "../type"
 import { FC } from "react"
 
-import clsx from "clsx"
-
 const Input: FC<InputProps> = (
     {
         className,
@@ -11,12 +9,9 @@ const Input: FC<InputProps> = (
 ) => {
     return (
         <input 
-            className={clsx(
-                className, 
-                `outline-none border border-neutral-600 rounded pl-2 hover:bg-stone-100 
-                focus:bg-stone-100 focus:border-blue-600`
-            )} 
-            {...props} 
+            type="text" 
+            className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"
+            {...props}
         />
     )
 }

@@ -1,11 +1,13 @@
 import React, { FC } from 'react'
-import { ButtonProps } from './type'
+import { ButtonPropsWithLeftAddon } from './type'
 
 import clsx from 'clsx'
 
-const ActionButton: FC<ButtonProps> = (
+const ActionButton: FC<ButtonPropsWithLeftAddon> = (
     {
         className,
+        children,
+        leftAddon,
         ...props
     }
 ) => {
@@ -14,9 +16,12 @@ const ActionButton: FC<ButtonProps> = (
             {...props}
             className={clsx(
                 className,
-                'rounded bg-sky-600 px-2 h-8 text-white flex items-center justify-center font-sans text-sm hover:bg-sky-700'
+                'flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600'
             )}
-        />
+        >
+            {leftAddon}
+            {children}
+        </button>
     )
 }
 
