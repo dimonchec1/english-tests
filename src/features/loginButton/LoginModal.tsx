@@ -13,14 +13,15 @@ const Modal: FC<ModalProps> = (props) => {
 
 const BackdropUnstyled = forwardRef<
     HTMLDivElement,
-    { open?: boolean; className: string }
+    { open?: boolean; className: string; ownerProps?: any }
 >((props, ref) => {
-    const { open, className, ...other } = props;
+    //https://github.com/mui/material-ui/issues/32882
+    const { open, className, ownerProps, ...other } = props;
     return (
         <div
-        className={clsx({ 'MuiBackdrop-open': open }, className)}
-        ref={ref}
-        {...other}
+            className={clsx({ 'MuiBackdrop-open': open }, className)}
+            ref={ref}
+            {...other}
         />
     )
 })
@@ -39,7 +40,9 @@ const LoginModal: FC<LoginModalProps> = (props) => {
             {...props}
             slots={{backdrop: Backdrop}}
             disablePortal
-        />
+        >
+            <div>{props.children}</div>
+        </Modal>
     )
 }
 

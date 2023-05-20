@@ -195,6 +195,7 @@ function AuthWithCredentials({onClose}:{onClose: () => void}) {
                             (Object.keys(Tab) as (keyof typeof Tab)[]).map(tab => {
                                 return (
                                     <StyledTab 
+                                        key={tab}
                                         isActive={tab === activeTab} 
                                         label={getTabName(tab)}
                                         value={tab}
@@ -219,7 +220,7 @@ function AuthWithCredentials({onClose}:{onClose: () => void}) {
                 {
                     (Object.keys(Tab) as (keyof typeof Tab)[]).map(tab => {
                         return (
-                            <LoginTab value={tab}>
+                            <LoginTab key={tab} value={tab}>
                                 <div className='bg-sky-600 rounded mt-1 p-1'>
                                     {getLoginTabContent(tab)}
                                 </div>
