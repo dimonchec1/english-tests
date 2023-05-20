@@ -40,7 +40,7 @@ const MainNavigation = () => {
                 {availableLinks.map(availableLink => {
                     const {url, label} = navigationConfig[availableLink]
                     return (
-                        <li className='hover:text-sky-600'>
+                        <li className='hover:text-sky-600' key={availableLink}>
                             <Link href={url}> {label}</Link>
                         </li>
                     )
