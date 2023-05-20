@@ -48,6 +48,7 @@ model User {
     emailVerified DateTime?
     password      String
     image         String?
+    role          Role      @default(GUEST)
     events        Event[]
     accounts      Account[]
     sessions      Session[]
@@ -98,7 +99,7 @@ model Organization {
     updatedAt DateTime @updatedAt
 
     name      String  @db.VarChar(255)
-    token     String?  @db.VarChar(255)
+    token     String? @db.VarChar(255)
     routePath String? @db.VarChar(255)
 }
 

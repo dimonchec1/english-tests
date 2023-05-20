@@ -9,6 +9,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/server/db";
 import { loginSchema } from "./api/validation/auth";
 import { verify } from "./api/security/crypt";
+import {User} from '@prisma/client'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -18,17 +19,8 @@ import { verify } from "./api/security/crypt";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+    user: User & DefaultSession["user"];
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
 
 /**
@@ -38,15 +30,17 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: async ({ session, token }) => {
-        if (session?.user) {
-          session.user.id = token.uid as string;
-        }
-        return session;
-    },
+    // session: async ({ session, token }) => {
+    //     if (session?.user) {
+    //       session.user.id = token.uid as string;
+    //     }
+    //     console.log('session')
+    //     return session;
+    // },
     jwt({ user, token }) {
       if (user) {
-        token.uid = user.id;
+        token.uid = user.id
+        token.role = "admin"
         // session.user.role = user.role; <-- put other properties on the session here
       }
       return token;
