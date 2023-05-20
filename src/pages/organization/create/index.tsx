@@ -6,7 +6,7 @@ import { NextRouter, useRouter } from 'next/router'
 import { useState } from 'react'
 
 const redirectToOrganizationPage = (organizationId: string, router: NextRouter) => {
-    const organizationRoute = `/organizations/${organizationId}`
+    const organizationRoute = `/organization/${organizationId}`
     router.push(organizationRoute)
 }
 
