@@ -1,4 +1,4 @@
-import { LoginButton } from "@/features/loginButton/LoginButton"
+import { LoginButton } from "@/features/auth/ui/LoginButton"
 import { FC, ReactNode } from "react"
 import Head from 'next/head'
 import { UserNavigation } from "@/features/navigarion/UserNavigation"

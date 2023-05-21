@@ -14,7 +14,7 @@ import { api } from '@/utils/api'
 
 import clsx from 'clsx'
 
-import CloseButton from '../../assets/Close.svg'
+import CloseButton from './../../../assets/Close.svg'
 import Image from 'next/image'
 
 const uiConfig = {
@@ -162,7 +162,6 @@ const RegistrationForm = () => {
 }
 
 function getLoginTabContent(tab: TabType) {
-    
     switch (tab) {
         case Tab.Login: 
             return (
@@ -181,6 +180,7 @@ function AuthWithCredentials({onClose}:{onClose: () => void}) {
     const [activeTab, setActiveTab] = useState<TabType>(Tab.Login)
 
     const changeTab = (tab: TabType) => {
+    // TODO: change tab with authPopupRouting.ts
         setActiveTab(tab) 
     }
 
