@@ -65,6 +65,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
+import { Role } from "@prisma/client";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -109,6 +110,22 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
+const enforceUserHasRole = (role: Role) => t.middleware(({ ctx, next }) => {
+    if (
+        !ctx.session || 
+        !ctx.session.user || 
+        ctx.session.user.role !== role
+    ) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+      return next({
+        ctx: {
+          // infers the `session` as non-nullable
+          session: { ...ctx.session, user: ctx.session.user },
+        },
+      });
+})
+
 /**
  * Protected (authenticated) procedure
  *
@@ -117,4 +134,13 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const authenticatedProcedure = t.procedure
+    .use(enforceUserIsAuthed)
+
+export const creatorProcedure = t.procedure
+    .use(enforceUserIsAuthed)
+    .use(enforceUserHasRole(Role.CREATOR))
+
+export const adminProcedure = t.procedure
+    .use(enforceUserIsAuthed)
+    .use(enforceUserHasRole(Role.ADMIN))

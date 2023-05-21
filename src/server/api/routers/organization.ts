@@ -1,4 +1,4 @@
-import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc"
+import { createTRPCRouter, publicProcedure, authenticatedProcedure } from "../trpc"
 import { prisma } from '../../db'
 import { z } from "zod"
 
