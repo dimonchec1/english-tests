@@ -1,4 +1,4 @@
-import EditEventLayout from "@/application/layouts/EditEventLayout"
+import LeftSidebarLayout from "@/application/layouts/LeftSidebarLayout"
 import { InputWithLabel } from "@/shared/ui/inputs/inputWithLabel/InputWithLabel"
 import { api } from "@/utils/api"
 import { useRouter } from "next/router"
@@ -10,21 +10,15 @@ const EditingNavigation = () => {
     )
 }
 
-const TestEditingContent = () => {
-    const router = useRouter()
-    const {eventId} = router.query
-
-    if (!eventId) {
-        return (
-            <h1 className='text-3xl font-bold'>
-                Loading...
-            </h1>
-        )
-    }
+const TestEditingContent = ({
+    eventId
+} : {
+    eventId: string
+}) => {
 
     const [eventName, setEventName] = useState('')
 
-    api.event.event.useQuery({eventId: typeof eventId![0] === 'string' ? eventId![0] : ''}, {
+    api.event.event.useQuery({eventId}, {
         onSuccess(data) {
             if (data) {
                 setEventName(data.name)
@@ -45,11 +39,25 @@ const TestEditingContent = () => {
 }
 
 const EditingContent = () => {
+    const router = useRouter()
+    const {eventId: eventIdQuery} = router.query
+    
+    if (!eventIdQuery) {
+        return (
+            <h1 className='text-3xl font-bold'>
+                Loading...
+            </h1>
+        )
+    }
+
+    const eventId = typeof eventIdQuery[0] === 'string' ? eventIdQuery![0] : ''
 
     return (
         <div className='flex gap-4 h-full'>
-            <div className='flex-grow border-x h-full pt-8 px-4'>
-                <TestEditingContent />
+            <div className='flex-grow h-full pt-8 px-4'>
+                <TestEditingContent
+                    eventId={eventId}
+                />
             </div>
             <div className='pt-8 w-40'>
                 <EditingNavigation />
@@ -60,9 +68,11 @@ const EditingContent = () => {
 
 const TestEdit = () => {
     return (
-        <EditEventLayout>
+        <LeftSidebarLayout
+            leftColumn={<div></div>}
+        >
             <EditingContent />
-        </EditEventLayout>
+        </LeftSidebarLayout>
     )
 }
 

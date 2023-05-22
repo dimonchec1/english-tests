@@ -1,6 +1,7 @@
 import { api } from "@/utils/api"
 import Table from "./Table"
 import Placeholder from "./Placeholder"
+import { Loading } from "@/shared/ui/Loading"
 
 const OrganizationsTable = () => {
 
@@ -8,7 +9,7 @@ const OrganizationsTable = () => {
     const {data: organizations} = api.organizations.getAll.useQuery()
 
     if (!organizations) {
-        return <h1>Loading...</h1>
+        return <Loading />
     }
     
     return (

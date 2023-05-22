@@ -1,5 +1,5 @@
 import { ActionButton } from "@/entities/buttons/ActionButton"
-import OrganizationsList from "@/features/organizationsList/OrganizationsList"
+import OrganizationsList from "@/features/organization/OrganizationsList"
 import { useRouter } from "next/router"
 
 const Organizations = () => {

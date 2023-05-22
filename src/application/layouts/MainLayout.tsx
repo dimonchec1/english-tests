@@ -1,8 +1,8 @@
-import { LoginButton } from "@/features/auth/ui/LoginButton"
 import { FC, ReactNode } from "react"
 import Head from 'next/head'
 import { UserNavigation } from "@/features/navigarion/UserNavigation"
 import { MainNavigation } from "@/features/navigarion/MainNavigation"
+import { LoginButton } from "@/features/auth/ui/LoginButton"
 
 interface MainLayoutProps {
     children: ReactNode
@@ -50,7 +50,8 @@ const MainLayout: FC<MainLayoutProps> = ({children}) => {
                     </div>
                 </div>
             </div>  
-            <main className='max-w-7xl mx-auto flex flex-col min-h-[calc(100%_-_49px)] border-x px-4'>
+            {/* height: 1px https://stackoverflow.com/questions/8468066/child-inside-parent-with-min-height-100-not-inheriting-height  */}
+            <main className='max-w-7xl mx-auto min-h-[calc(100%_-_49px)] border-x px-4 h-1'>
                 {children}
             </main>
         </>

@@ -1,11 +1,11 @@
 import { ActionButton } from "@/entities/buttons/ActionButton"
+import { InputWithLabel } from "@/shared/ui/inputs/inputWithLabel/InputWithLabel"
 import { api } from "@/utils/api"
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from "next/router";
-import { InputWithLabel } from "@/shared/ui/inputs/inputWithLabel/InputWithLabel";
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
+import { useState } from "react"
 
-const CreateTest = () => {
+const CreateEventContent = () => {
     const router = useRouter()
     const {data: session} = useSession()
     const {mutate} = api.event.create.useMutation()
@@ -17,14 +17,14 @@ const CreateTest = () => {
             userId: session!.user.id
         }, {
             onSuccess: eventId => {
-                router.push(`/event/edit/${eventId}`)
+                router.push(`/organization/event/edit/${eventId}`)
             }
         })
     }
 
     return (
-        <div className='py-8 space-y-8'>
-            <h1 className='text-2xl font-semibold'>Создайте новый тест</h1>
+        <>
+            <h1 className='text-2xl font-semibold'>Создайте новое мероприятие</h1>
             <InputWithLabel 
                 value={name}
                 onChange={e => setName(e.target.value)}
@@ -35,10 +35,13 @@ const CreateTest = () => {
                 onClick={handleCreateTestClick}
                 className='w-28'
             >
-                Создать тест
+                Создать мероприятие
             </ActionButton>
-        </div>
+        </>
+        
     )
 }
 
-export default CreateTest
+export {
+    CreateEventContent
+}

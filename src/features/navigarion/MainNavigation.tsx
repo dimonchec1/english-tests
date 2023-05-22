@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-const availableLinks = ['main', 'events', 'event/edit', 'admin/organizations', 'organization/settings'] as const
+const availableLinks = ['main', 'organization/events', 'admin/organizations'] as const
 
 type AvailableLinks = typeof availableLinks[number]
 
@@ -14,23 +14,38 @@ const navigationConfig: Record<AvailableLinks, NavigationConfig> = {
         url: '/',
         label: 'Главная'
     },
-    'events': {
-        url: '/events',
-        label: 'Мероприятия'
-    },
-    'event/edit': {
-        url: '/event/edit',
-        label: 'Редактирование'
+    'organization/events': {
+        url: '/organization/events',
+        label: 'Меню организации'
     },
     'admin/organizations': {
-        url: '/admin/organizations/',
-        label: 'Организации'
-    },
-    'organization/settings': {
-        url: '/organization/settings/',
-        label: 'Настройки организации'
+        url: '/admin/organizations',
+        label: 'Администрирование'
     }
 }
+
+// const navigationConfig: Record<AvailableLinks, NavigationConfig> = {
+//     'main': {
+//         url: '/',
+//         label: 'Главная'
+//     },
+//     'events': {
+//         url: '/events',
+//         label: 'Мероприятия'
+//     },
+//     'event/edit': {
+//         url: '/event/edit',
+//         label: 'Редактирование'
+//     },
+//     'admin/organizations': {
+//         url: '/admin/organizations/',
+//         label: 'Организации'
+//     },
+//     'organization/settings': {
+//         url: '/organization/settings/',
+//         label: 'Настройки организации'
+//     }
+// }
 
 const MainNavigation = () => {
 
@@ -40,7 +55,7 @@ const MainNavigation = () => {
                 {availableLinks.map(availableLink => {
                     const {url, label} = navigationConfig[availableLink]
                     return (
-                        <li className='hover:text-sky-600' key={availableLink}>
+                        <li key={availableLink} className='hover:text-sky-600'>
                             <Link href={url}> {label}</Link>
                         </li>
                     )

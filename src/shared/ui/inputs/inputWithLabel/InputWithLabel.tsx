@@ -1,6 +1,7 @@
 import { FC } from "react"
 import { Input } from "../input/Input"
 import { InputProps } from "../type"
+import { Label } from "../../label/Label"
 
 interface InputWithLabelProps extends InputProps  {
     labelText: string
@@ -14,10 +15,10 @@ const InputWithLabel: FC<InputWithLabelProps> = (
 ) => {
     return (  
         <div>
-            <label className="text-gray-700">
+            <Label>
                 {labelText}
                 <Input {...props} />
-            </label>
+            </Label>
         </div>  
       
     )

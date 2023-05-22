@@ -11,7 +11,7 @@ import { organizationRouter } from "./routers/organization";
 export const appRouter = createTRPCRouter({
   user: userRouter,
   event: eventRouter,
-  organizations: organizationRouter
+  organization: organizationRouter
 });
 
 // export type definition of API

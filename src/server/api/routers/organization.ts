@@ -2,6 +2,10 @@ import { createTRPCRouter, publicProcedure, authenticatedProcedure } from "../tr
 import { prisma } from '../../db'
 import { z } from "zod"
 
+export const generateApiSchema = z.object({
+    organizationId: z.string(),
+});
+
 export const organizationRouter = createTRPCRouter({
     getAll: publicProcedure
         .query(async () => {
@@ -25,4 +29,10 @@ export const organizationRouter = createTRPCRouter({
 
             return organization.id
         }),
+    generateApiToken: authenticatedProcedure
+        .input(generateApiSchema)
+        .mutation(async ({input}) => {
+            const {organizationId} = input
+            return 'token'
+        })
 })
