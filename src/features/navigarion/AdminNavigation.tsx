@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ReactNode } from "react"
 
-const availableLinks = ['organization/events', 'organization/employees', 'organization/settings'] as const
+const availableLinks = ['admin/organizations', 'admin/users', 'admin/settings'] as const
 
 type AvailableLinks = typeof availableLinks[number]
 
@@ -11,28 +11,28 @@ interface NavigationConfig {
 }
 
 const navigationConfig: Record<AvailableLinks, NavigationConfig> = {
-    'organization/events': {
-        url: '/organization/events',
-        label: 'Мероприятия'
+    'admin/organizations': {
+        url: '/admin/organizations',
+        label: 'Организации'
     },
-    'organization/employees': {
-        url: '/organization/employees',
-        label: 'Сотрудники'
+    'admin/users': {
+        url: '/admin/users',
+        label: 'Пользователи'
     },
-    'organization/settings': {
-        url: '/organization/settings',
+    'admin/settings': {
+        url: '/admin/settings',
         label: 'Настройки'
     }
 }
 
-const EditTestNavigation = ({
+const AdminNavigation = ({
     enhancer
 } : {
     enhancer?: ReactNode
 }) => {
     return (
         <div className='w-full space-y-4'>
-            <h5 className='font-semibold'>Организация</h5>
+            <h5 className='font-semibold'>Администрирование</h5>
             {enhancer}
             <nav className='w-full flex'>
                 <ul>
@@ -52,5 +52,5 @@ const EditTestNavigation = ({
 }
 
 export {
-    EditTestNavigation
+    AdminNavigation
 }

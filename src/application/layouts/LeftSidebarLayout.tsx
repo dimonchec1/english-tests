@@ -15,7 +15,7 @@ const LeftSidebarLayout = (
             <div className='w-52 pt-8'>
                 {leftColumn}
             </div>
-            <div className='flex-grow py-8 px-6 border-l'>
+            <div className='flex-grow border-l'>
                 {children}
             </div>
         </div>

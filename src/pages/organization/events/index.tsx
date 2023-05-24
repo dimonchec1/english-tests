@@ -2,6 +2,7 @@ import LeftSidebarLayout from "@/application/layouts/LeftSidebarLayout"
 import { AddNewButton } from "@/entities/buttons/AddNewButton"
 import { EventsList } from "@/features/events/EventsList"
 import { EventLayout } from "@/features/layouts/EventsLayout"
+import { PageContent } from "@/features/layouts/PageContent"
 import { EditTestNavigation } from "@/features/navigarion/EditEventNavigation"
 import { ContentHeader } from "@/shared/ui/headers/ContentHeader"
 import { NextRouter, useRouter } from "next/router"
@@ -15,8 +16,10 @@ const EventEditPreview = () => {
 
     return (
         <EventLayout>
-            <ContentHeader title='Мероприятия' />
-            <EventsList />
+            <PageContent>
+                <ContentHeader title='Мероприятия' />
+                <EventsList />
+            </PageContent>
         </EventLayout>
     )
 }

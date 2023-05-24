@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-const availableLinks = ['main', 'organization/events', 'admin/organizations'] as const
+const availableLinks = ['main', 'organization/events', 'admin'] as const
 
 type AvailableLinks = typeof availableLinks[number]
 
@@ -18,8 +18,8 @@ const navigationConfig: Record<AvailableLinks, NavigationConfig> = {
         url: '/organization/events',
         label: 'Меню организации'
     },
-    'admin/organizations': {
-        url: '/admin/organizations',
+    'admin': {
+        url: '/admin',
         label: 'Администрирование'
     }
 }
