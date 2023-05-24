@@ -25,17 +25,17 @@ const RightSubNav = () => {
     const session = useSession()
     const userId = session.data?.user.id || ''
 
-    if (!userId) {
-        return <div>Загрузка...</div>
-    }
-
     return (
         <div className='ml-auto flex space-x-4'>
             <div className='py-2'>
                 <LoginButton />     
             </div>
             <div className='py-0.5'>
-                <UserNavigation userId={userId} />               
+                {
+                    !userId
+                        ? <div>Загрузка...</div>
+                        : <UserNavigation userId={userId} />   
+                }
             </div>
         </div>
     )
