@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { UserNavigation } from "@/features/navigarion/UserNavigation"
 import { MainNavigation } from "@/features/navigarion/MainNavigation"
 import { LoginButton } from "@/features/auth/ui/LoginButton"
+import { useSession } from "next-auth/react"
 
 interface MainLayoutProps {
     children: ReactNode
@@ -21,13 +22,20 @@ const FullHeightPageStyles = () => {
 }
 
 const RightSubNav = () => {
+    const session = useSession()
+    const userId = session.data?.user.id || ''
+
+    if (!userId) {
+        return <div>Загрузка...</div>
+    }
+
     return (
         <div className='ml-auto flex space-x-4'>
             <div className='py-2'>
                 <LoginButton />     
             </div>
             <div className='py-0.5'>
-                <UserNavigation userId='123' />               
+                <UserNavigation userId={userId} />               
             </div>
         </div>
     )

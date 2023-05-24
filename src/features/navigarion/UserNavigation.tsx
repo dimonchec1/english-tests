@@ -13,7 +13,8 @@ const UserNavigation = ({userId}: Props) => {
     const router = useRouter()
 
     const handleClick = () => {
-        router.push(`users/${userId}`)
+        console.log(userId, 'userid')
+        router.push(`/user/${userId}/profile`)
     }
 
     return (
