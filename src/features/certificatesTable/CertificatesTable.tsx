@@ -51,29 +51,38 @@ const CertificatesTable = () => {
 
     const router = useRouter()
 
-    const onRowClick = (rowIndex: number) => {
-        // const organization = organizations[rowIndex]
-        // const {id} = organization!
-        // router.push(`/admin/organization/${id}`)
+    const onRowClick = async (rowIndex: number) => {
+        if (!process.env.CERTIFICATION_URL) return 
+        const response = await fetch(`${process.env.CERTIFICATION_URL}/`, { 
+            method: "GET",
+            headers: { "Content-Type": "application/json",'Authorization': 'Bearer ' + window.localStorage["Access_Token"]},
+            // body: JSON.stringify({
+            //     a: 1
+            // })
+        })
+        
+        const data = await response.blob()
+        
+        var csvURL = window.URL.createObjectURL(data);
+        let tempLink = document.createElement('a');
+        tempLink.href = csvURL;
+        tempLink.setAttribute('download', 'test.pdf');
+        tempLink.click()
+
+        console.log(data)
     }
     
     return (
         <>
-            {
-            <>
-                <Table 
-                    colCount={colCount}
-                    data={[1]}
-                    getHeadContent={getHeadContent}
-                    getCellContent={getCellContent} 
-                    onRowClick={onRowClick}
-                />
-                <Pagination />
-            </>
-                
-            }   
+            <Table 
+                colCount={colCount}
+                data={[1]}
+                getHeadContent={getHeadContent}
+                getCellContent={getCellContent} 
+                onRowClick={onRowClick}
+            />
+            <Pagination />
         </>
-            
     )
 }
 

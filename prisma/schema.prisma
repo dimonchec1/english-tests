@@ -49,50 +49,66 @@ model User {
     password      String
     image         String?
     role          Role      @default(ADMIN)
-    events        Event[]
     accounts      Account[]
     sessions      Session[]
 
+    eventResults  UserEnrollment[]
     organizations OrganizationMember[]
 }
 
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+// model VerificationToken {
+//     identifier String
+//     token      String   @unique
+//     expires    DateTime
 
-    @@unique([identifier, token])
-}
+//     @@unique([identifier, token])
+// }
 
-model Post {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// model Post {
+//     id        String   @id @default(cuid())
+//     createdAt DateTime @default(now())
+//     updatedAt DateTime @updatedAt
 
-    content  String @db.VarChar(255)
-    authorId String
+//     content  String @db.VarChar(255)
+//     authorId String
 
-    @@index([authorId])
-}
+//     @@index([authorId])
+// }
 
 model Event {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    name         String    @db.VarChar(64)
-    description  String?   @db.VarChar(4000)
+    name         String             @db.VarChar(64)
+    description  String?            @db.VarChar(4000)
     startDate    DateTime?
     endDate      DateTime?
-    durationTime Int?      @db.SmallInt
-    authorId     String
-    author       User      @relation(fields: [authorId], references: [id])
+    durationTime Int?               @db.SmallInt
+    eventAuthorId String
+    evenAuthor EntityHasEvent @relation(fields: [eventAuthorId], references: [id])
 
     isPublished   Boolean?  @db.Boolean()
     publishedAt   DateTime? @db.Timestamp()
     unpublishedAt DateTime? @db.Timestamp()
 
-    @@index([authorId])
+    usersCompletedEvent UserEnrollment[]
+
+
+    // @@index([authorId])
+}
+
+model UserEnrollment {
+    id        String   @id @default(cuid())
+    event   Event  @relation(fields: [eventId], references: [id])
+    eventId String
+    user    User   @relation(fields: [userId], references: [id])
+    userId  String
+
+    result    Json?
+    startDate DateTime?
+    endDate   DateTime?
+    createdAt DateTime @default(now())
 }
 
 model Organization {
@@ -104,16 +120,38 @@ model Organization {
     token     String? @db.VarChar(255)
     routePath String? @db.VarChar(255)
 
-    users OrganizationMember[]
+    members OrganizationMember[]
+    events EntityHasEvent[]
 }
 
 model OrganizationMember {
+    id             String       @id @default(cuid())
     organization   Organization @relation(fields: [organizationId], references: [id])
     organizationId String
     user           User         @relation(fields: [userId], references: [id])
     userId         String
 
-    @@id([organizationId, userId])
+    event     EntityHasEvent[]
+    createdAt DateTime @default(now())
+}
+
+// model ServiceAccount {
+//     id  String       @id @default(cuid())
+
+//     event     EntityHasEvent[]
+
+//     organization Organization @relation(fields: [organizationId], references: [id])
+    
+//     organizationId String
+// }
+
+model EntityHasEvent {
+    id  String       @id @default(cuid())
+    event     Event[]
+    authorId     String?
+    author       OrganizationMember? @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+    organizationAuthorId String?
+    organizationAuthor       Organization? @relation(fields: [organizationAuthorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 }
 
 enum Role {

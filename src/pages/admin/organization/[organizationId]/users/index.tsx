@@ -1,7 +1,7 @@
 import { RightSidebarLayout } from "@/application/layouts/RightSidebarSubLayout"
 import { AdminLayout } from "@/features/layouts/AdminLayout"
 import { OrganizationNav } from "@/features/navigarion/admin/OrganizationNav"
-import { OrganizationUsers } from "@/features/organization/OrganizationUsers"
+import { OrganizationMembersTable } from "@/features/organization/organizationMembersTable/OrganizationMembersTable"
 import { useRouter } from "next/router"
 
 const parseOrganizationQuery = (query: string | string[] | undefined) => {
@@ -18,11 +18,13 @@ const OrganizationUsersPage = () => {
     const organizationId = parseOrganizationQuery(organizationIdQuery) || ''
 
     return (
-            <AdminLayout>
+        <AdminLayout>
             <RightSidebarLayout 
                 rightColumn={<OrganizationNav organizationId={organizationId} />}
             > 
-                <OrganizationUsers organizationId={organizationId} />
+                <OrganizationMembersTable 
+                    organizationId={organizationId} 
+                />
             </RightSidebarLayout>
         </AdminLayout>
     )

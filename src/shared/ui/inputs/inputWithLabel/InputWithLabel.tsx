@@ -17,8 +17,8 @@ const InputWithLabel: FC<InputWithLabelProps> = (
         <div>
             <Label>
                 {labelText}
-                <Input {...props} />
             </Label>
+                <Input {...props} />
         </div>  
       
     )

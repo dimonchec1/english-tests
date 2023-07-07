@@ -15,9 +15,7 @@ const AdminOrganizationContent = ({
     }
 
     return (
-        <>
-            <ContentHeader title={organization.name} />
-        </>
+        <ContentHeader title={organization.name} />
     )
 }
 

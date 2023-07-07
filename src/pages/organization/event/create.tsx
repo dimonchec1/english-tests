@@ -6,7 +6,7 @@ const CreateTest = () => {
 
     return (
         <EventLayout>
-            <div className='py-8 space-y-8'>
+            <div className='px-6 py-8 space-y-8'>
                 <CreateEventContent />
             </div>
         </EventLayout>

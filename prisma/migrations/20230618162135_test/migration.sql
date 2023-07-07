@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "UserEnrollment" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP;

@@ -1,7 +1,8 @@
 import { createTRPCRouter, publicProcedure, authenticatedProcedure } from "../trpc"
 import { prisma } from '../../db'
 import { z } from "zod"
-import { randomUUID } from "crypto";
+import { randomUUID } from "crypto"
+import { OrganizationTableInfoType } from "@/features/organization/organizationsTable/OrganizationsTable";
 
 export const generateApiSchema = z.object({
     organizationId: z.string(),
@@ -10,9 +11,31 @@ export const generateApiSchema = z.object({
 export const organizationRouter = createTRPCRouter({
     getAll: publicProcedure
         .query(async () => {
-            const organizations = await prisma.organization.findMany()
+            const organizations = await prisma.organization.findMany({
+                
+                include: {
+                    members: {
+                        include: {
+                            _count: {
+                                select: {
+                                    event: true
+                                }
+                            }
+                        }
+                    }
+                }
+            })
 
-            return organizations
+
+            const formattedOrganizations: OrganizationTableInfoType[] = organizations.map(organization => ({
+                organizationId: organization.id,
+                createdAt: organization.createdAt,
+                organizationName: organization.name,
+                organizationMembersCount: organization.members.length,
+                totalEventsCount: organization.members.reduce((acc, user) => acc + user._count.event, 0)
+            }))
+
+            return formattedOrganizations
         }),
     organization: publicProcedure
         .input(z.object({
@@ -21,9 +44,24 @@ export const organizationRouter = createTRPCRouter({
         .query(async ({input}) => {
             const {organizationId} = input
 
-            const organization = await prisma.organization.findFirst({where: {
-                id: organizationId
+            const organization = await prisma.organization.findFirst({
+
+                include: {
+                    users: {
+                        include: {
+                            _count: {
+                                select: {
+                                    event: true
+                                }
+                            }
+                        }
+                    }
+                },
+                where: {
+                id: organizationId,
             }})
+
+            organization?.users
 
             return organization
         }),
@@ -33,14 +71,14 @@ export const organizationRouter = createTRPCRouter({
         }))
         .query(async ({input}) => {
             const {organizationId} = input
-            const users = await prisma.organizationMember.findMany({ where: {
-                organizationId,
-
-            },
-            include: {
-                user: true
-            }
-        })
+            const users = await prisma.organizationMember.findMany({ 
+                include: {
+                    user: true
+                },
+                where: {
+                    organizationId
+                }
+            })
 
             return users
         }),

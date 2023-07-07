@@ -1,4 +1,56 @@
-import { ReactNode } from "react"
+import { Popover } from "@mui/material"
+import { ReactNode,useState} from "react"
+
+interface Action<T> {
+    content: ReactNode
+    onClick: (rowIndex: number, rowData: T) => void
+}
+
+const ActionPopover = <T, >({
+    actions
+}: {
+    actions: Action<T>[]
+}) => {
+    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+  
+    const open = Boolean(anchorEl)
+
+    const id = open ? 'simple-popover' : undefined
+
+    return (
+        <div>
+            <button 
+                aria-describedby={id} 
+                onClick={handleClick}
+                className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                </svg>
+            </button>
+            <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+                }}
+            >
+                {/* {actions.map(action => action.content)} */}
+            </Popover>
+        </div>
+    )
+}
 
 const Table = <T, >({
     getCellContent,
@@ -18,6 +70,7 @@ const Table = <T, >({
     data: T[]
     colCount: number
     onRowClick: (rowIndex: number) => void
+    actions?: Action<T>[][]
 }) => {
     return (
         <div className="flex flex-col mt-6">
@@ -35,7 +88,7 @@ const Table = <T, >({
                                     {
                                         Array(colCount).fill(null).map((_, colIndex) => {
                                             return (
-                                                <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500  ">
+                                                <th key={colIndex} scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500  ">
                                                     {getHeadContent(colIndex)}
                                                 </th>
                                             )
@@ -50,7 +103,7 @@ const Table = <T, >({
                                 {
                                     data.map((rowData, rowIndex) => {
                                         return (
-                                            <tr onClick={() => onRowClick(rowIndex)}>
+                                            <tr key={rowIndex} onClick={() => onRowClick(rowIndex)}>
                                                 <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500  ">
                                                     <div className="flex items-center gap-x-3">
                                                         <input type="checkbox" className="text-blue-500 border-gray-300 rounded      " />
@@ -59,20 +112,16 @@ const Table = <T, >({
                                                 {
                                                     Array(colCount).fill(null).map((_, colIndex) => {
                                                         return (
-                                                            <>
-                                                                <td className="px-4 py-4 text-sm text-gray-500   whitespace-nowrap">
-                                                                    {getCellContent(rowIndex, colIndex, rowData)}
-                                                                </td>
-                                                            </>
+                                                            <td key={`${rowIndex}-${colIndex}`} className="px-4 py-4 text-sm text-gray-500   whitespace-nowrap">
+                                                                {getCellContent(rowIndex, colIndex, rowData)}
+                                                            </td>
                                                         )
                                                     })
                                                 }
                                                 <td className="px-4 py-4 text-sm whitespace-nowrap flex justify-end">
-                                                    <button className="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg   hover:bg-gray-100">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-                                                        </svg>
-                                                    </button>
+                                                    <ActionPopover
+                                                        actions={[]}
+                                                    />
                                                 </td>
                                             </tr>
                                         )

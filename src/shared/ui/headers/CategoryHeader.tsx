@@ -5,7 +5,7 @@ const CategoryHeader = ({
     title: string
 }) => {
     return (
-        <h3 className='text-xl font-medium mb-4'>
+        <h3 className='text-xl font-medium mb-2'>
             {title}
         </h3>
     )

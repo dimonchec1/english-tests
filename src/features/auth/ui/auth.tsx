@@ -137,6 +137,7 @@ const RegistrationForm = () => {
         //     })
         // }
     })
+    
     const onSubmit: SubmitHandler<ISignUp> = async data => {
         createUser({username: data.username, email: data.email, password: data.password})
         // const result = await signIn('credentials', {

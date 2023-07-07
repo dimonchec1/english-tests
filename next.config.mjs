@@ -12,6 +12,9 @@ const config = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    env: {
+        CERTIFICATION_URL: process.env.CERTIFICATION_URL || 'test'
+    },
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
    * must comment the below `i18n` config out.
@@ -26,7 +29,10 @@ const config = {
     remotePatterns: [
         //TODO: DANGEROUS, REMOVE PLS
         {
-            hostname: '65.mchs.gov.ru'
+            hostname: '65.mchs.gov.ru',
+        },
+        {
+            hostname: 'upload.wikimedia.org'
         }
     ]
   }

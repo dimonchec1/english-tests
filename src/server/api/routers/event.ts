@@ -11,12 +11,28 @@ export const eventRouter = createTRPCRouter({
         .mutation(async ({input}) => {
             const {testName, userId} = input
 
-            console.log('teasdfasdfasdfasdst')
+            console.log(userId)
+
+            const user = await prisma.user.findFirst({
+                where: {
+                    id: userId,
+                },
+                include: {
+                    organizations: {
+                        'include': {
+                            event: true
+                        }
+                    }
+                    
+                },
+            })
+
+            const entityHasEventId = user?.organizations[0]?.event[0]?.id
 
             const event = await prisma.event.create({
                 data: {
                     name: testName,
-                    authorId: userId
+                    eventAuthorId: entityHasEventId || ''
                 }
             })
 

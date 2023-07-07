@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     return (
         <PageContent>
             <ContentHeader title='Активные мероприятия' />
-            <EventsList withFilter />
+            <EventsList />
         </PageContent>
     )
 }
