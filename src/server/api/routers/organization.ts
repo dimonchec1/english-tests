@@ -47,7 +47,7 @@ export const organizationRouter = createTRPCRouter({
             const organization = await prisma.organization.findFirst({
 
                 include: {
-                    users: {
+                    members: {
                         include: {
                             _count: {
                                 select: {
@@ -60,8 +60,6 @@ export const organizationRouter = createTRPCRouter({
                 where: {
                 id: organizationId,
             }})
-
-            organization?.users
 
             return organization
         }),
